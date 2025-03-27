@@ -1,4 +1,6 @@
-class TradingStrategy:
+from surmount.base_class import Strategy
+
+class TradingStrategy(Strategy):
     def initialize(self, context):
         context.assets = ["AAPL", "TSLA", "AMD", "BTC-USD", "ETH-USD", "EURUSD", "GBPUSD"]
         context.max_risk_pct = 0.03
