@@ -1,9 +1,11 @@
-class TradingStrategy:
+from surmount.base_class import Strategy
+
+class TradingStrategy(Strategy):
     def initialize(self):
-        # Your custom universe of tickers
+        # Define the stocks/ETFs to trade
         self.set_universe(["MARA", "RIOT", "SOXL", "PLTR", "IONQ", "TQQQ", "TSLA", "NVDA", "LABU"])
         
-        # Set trading timeframe and position size
+        # Set timeframe and position sizing
         self.set_timeframe("5m")
         self.set_position_size(percent=0.25)
 
@@ -13,11 +15,11 @@ class TradingStrategy:
             ema_9 = data[symbol].ema(9)
             rsi_14 = data[symbol].rsi(14)
 
-            # Entry logic
+            # Entry condition: price > EMA(9) and RSI between 50–70
             if not self.has_position(symbol) and price > ema_9 and 50 < rsi_14 < 70:
                 self.enter_position(symbol, direction="long")
 
-            # Exit logic
+            # Exit condition: take profit, stop-loss, or RSI overbought
             if self.has_position(symbol):
                 entry_price = self.get_entry_price(symbol)
                 gain_percent = (price - entry_price) / entry_price * 100
